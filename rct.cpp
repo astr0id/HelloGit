@@ -3,17 +3,21 @@
 #include <string>
 #include <stdio.h>
 using namespace std;
+int initialize(FILE *);
 int main()
 {
 	FILE * inPtr;
 	FILE * outPtr;
 	FILE * rePtr;
-	int number,choice;
+	FILE * loPtr;
+	int number,choice,start;
 	char buffer[30];
 	inPtr=fopen("./wl.txt","r");
 	outPtr=fopen("./res.txt","a");
 	rePtr=fopen("./rev.txt","a");
-
+	loPtr=fopen("./log.txt","r+");
+	start=initialize(loPtr);
+	for(int i=0;i<start;i++)fgets(buffer,sizeof(buffer),inPtr);
 	if (inPtr == NULL)
 	{
 		cout<<"ERROR!"<<endl;
@@ -49,6 +53,16 @@ int main()
 	fclose(inPtr);
 	fclose(outPtr);
 	fclose(rePtr);
+	fclose(loPtr);
 	return 0;
-
 }
+int initialize(FILE * logP)
+{
+	char ch[20];
+	int num;
+	fgets(ch,sizeof(ch),logP);
+	cout<<"You have already recited "<<ch<<" words"<<endl;
+	num=atoi(ch);
+	return num;
+	
+} 
